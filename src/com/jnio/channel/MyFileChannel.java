@@ -12,13 +12,13 @@ import java.nio.channels.FileChannel;
 public class MyFileChannel {
 
     public static void main(String[] args) throws IOException {
-        RandomAccessFile file = new RandomAccessFile("resoueces/data.txt", "rw");
+        RandomAccessFile file = new RandomAccessFile("resources/data.txt", "rw");
         FileChannel fileChannel = file.getChannel();
 
         ByteBuffer buffer = ByteBuffer.allocate(64);
         int readBytes = fileChannel.read(buffer);
         while (readBytes != -1) {
-            System.out.println("Read " + readBytes);
+            System.out.println("\r\n------------------------ Read " + readBytes + " ------------------------");
 
             buffer.flip();
 
