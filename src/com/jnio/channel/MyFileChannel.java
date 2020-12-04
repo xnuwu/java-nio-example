@@ -30,6 +30,7 @@ public class MyFileChannel {
             readBytes = fileChannel.read(buffer);
         }
 
+        fileChannel.truncate(32);
         fileChannel.close();
     }
 
