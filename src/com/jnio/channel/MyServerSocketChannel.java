@@ -22,19 +22,25 @@ public class MyServerSocketChannel {
                 ByteBuffer readBuffer = ByteBuffer.allocate(1024);
                 ByteBuffer writeBuffer = ByteBuffer.allocate(1024);
 
-                socketChannel.read(readBuffer);
-                readBuffer.flip();
+                int readBytes = socketChannel.read(readBuffer);
+                while (readBytes != -1) {
 
-                System.out.print("client: ");
-                while (readBuffer.hasRemaining()) {
-                    System.out.print((char) readBuffer.get());
+                    System.out.print("SERVER Rev " + readBytes + " Bytes: ");
+                    readBuffer.flip();
+                    while (readBuffer.hasRemaining()) {
+                        System.out.print((char) readBuffer.get());
+                    }
+                    System.out.println();
+
+                    String message = "hello, client! server time is " + System.currentTimeMillis();
+                    writeBuffer.put(message.getBytes());
+                    writeBuffer.flip();
+                    socketChannel.write(writeBuffer);
+
+                    readBuffer.clear();
+                    writeBuffer.clear();
+                    readBytes = socketChannel.read(readBuffer);
                 }
-                System.out.println();
-
-                String message = "server received message at " + System.currentTimeMillis();
-                writeBuffer.put(message.getBytes());
-                writeBuffer.flip();
-                socketChannel.write(writeBuffer);
             }
         }
     }
